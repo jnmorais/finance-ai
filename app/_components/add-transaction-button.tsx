@@ -2,7 +2,6 @@
 
 import { ArrowDownUpIcon } from "lucide-react";
 import { Button } from "./ui/button";
-import { z } from "zod";
 import {
   Dialog,
   DialogClose,
@@ -13,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { z } from "zod";
 import {
   TransactionCategory,
   TransactionPaymentMethod,
@@ -43,50 +43,64 @@ import {
   TRANSACTION_TYPE_OPTIONS,
 } from "../_constants/transactions";
 import { DatePicker } from "./ui/date-picker";
+import { addTransaction } from "../_actions/add-transaction";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, {
-    message: "Nome é obrigatorio",
+    message: "O nome é obrigatório.",
   }),
-  amount: z.string().trim().min(1, {
-    message: "Valor é obrigatorio",
-  }),
+  amount: z
+    .number({
+      required_error: "O valor é obrigatório.",
+    })
+    .positive({
+      message: "O valor deve ser positivo.",
+    }),
   type: z.nativeEnum(TransactionType, {
-    required_error: "O tipo é obrigatorio",
+    required_error: "O tipo é obrigatório.",
   }),
   category: z.nativeEnum(TransactionCategory, {
-    required_error: "A categoria é obrigatorio",
+    required_error: "A categoria é obrigatória.",
   }),
   paymentMethod: z.nativeEnum(TransactionPaymentMethod, {
-    required_error: "O metodo de pagamento é obrigatorio",
+    required_error: "O método de pagamento é obrigatório.",
   }),
   date: z.date({
-    required_error: "A data é obrigatorio",
+    required_error: "A data é obrigatória.",
   }),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
 const AddTransactionButton = () => {
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      amount: "",
-      type: TransactionType.DEPOSIT,
+      amount: 0,
       category: TransactionCategory.OTHER,
-      paymentMethod: TransactionPaymentMethod.CASH,
       date: new Date(),
+      name: "",
+      paymentMethod: TransactionPaymentMethod.CASH,
+      type: TransactionType.EXPENSE,
     },
   });
-
-  const onSubmit = (data: FormSchema) => {
-    console.log({ data });
+  const onSubmit = async (data: FormSchema) => {
+    try {
+      await addTransaction(data);
+      setDialogIsOpen(false);
+      form.reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <Dialog
+      open={dialogIsOpen}
       onOpenChange={(open) => {
+        setDialogIsOpen(open);
         if (!open) {
           form.reset();
         }
@@ -100,7 +114,7 @@ const AddTransactionButton = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle> Adicionar Transação</DialogTitle>
+          <DialogTitle>Adicionar transação</DialogTitle>
           <DialogDescription>Insira as informações abaixo</DialogDescription>
         </DialogHeader>
 
@@ -111,7 +125,7 @@ const AddTransactionButton = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome da Transação</FormLabel>
+                  <FormLabel>Nome</FormLabel>
                   <FormControl>
                     <Input placeholder="Digite o nome..." {...field} />
                   </FormControl>
@@ -126,7 +140,15 @@ const AddTransactionButton = () => {
                 <FormItem>
                   <FormLabel>Valor</FormLabel>
                   <FormControl>
-                    <MoneyInput placeholder="Digite valor..." {...field} />
+                    <MoneyInput
+                      placeholder="Digite o valor..."
+                      value={field.value}
+                      onValueChange={({ floatValue }) =>
+                        field.onChange(floatValue)
+                      }
+                      onBlur={field.onBlur}
+                      disabled={field.disabled}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -144,7 +166,7 @@ const AddTransactionButton = () => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione o tipo de transação" />
+                        <SelectValue placeholder="Select a verified email to display" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -171,7 +193,7 @@ const AddTransactionButton = () => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione a categoria" />
+                        <SelectValue placeholder="Selecione a categoria..." />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -191,14 +213,14 @@ const AddTransactionButton = () => {
               name="paymentMethod"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Método de Pagamento</FormLabel>
+                  <FormLabel>Método de pagamento</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione o método de pagamento" />
+                        <SelectValue placeholder="Selecione um método de pagamento..." />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -225,12 +247,12 @@ const AddTransactionButton = () => {
               )}
             />
             <DialogFooter>
-              <Button type="submit">Adicionar</Button>
               <DialogClose asChild>
                 <Button type="button" variant="outline">
                   Cancelar
                 </Button>
               </DialogClose>
+              <Button type="submit">Adicionar</Button>
             </DialogFooter>
           </form>
         </Form>
