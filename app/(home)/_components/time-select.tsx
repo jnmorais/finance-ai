@@ -4,12 +4,13 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "@/app/_components/ui/select";
-import { SelectValue } from "@radix-ui/react-select";
+
 import { useRouter, useSearchParams } from "next/navigation";
 
 const MONTH_OPTIONS = [
-  { value: "01", label: "Jan" },
+  { value: "01", label: "Janeiro" },
   { value: "02", label: "Fevereiro" },
   { value: "03", label: "Março" },
   { value: "04", label: "Abril" },
