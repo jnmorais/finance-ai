@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/app/_components/ui/dialog";
-import { BotIcon, Loader2Icon } from "lucide-react";
+import { BotIcon, DownloadIcon, Loader2Icon } from "lucide-react";
 import { generateAiReport } from "../actions/generate-ai-report";
 import { useState } from "react";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
@@ -37,6 +37,18 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
       setReportIsLoading(false);
     }
   };
+  const handleDownloadReport = () => {
+    if (!report) return;
+    const blob = new Blob([report], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `relatorio-${month}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -55,6 +67,16 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
                 sobre suas finanças.
               </DialogDescription>
             </DialogHeader>
+            {report && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="absolute right-2 top-2 z-10"
+                onClick={handleDownloadReport}
+              >
+                <DownloadIcon />
+              </Button>
+            )}
             <ScrollArea className="prose max-h-[450px] text-white prose-h3:text-white prose-h4:text-white prose-strong:text-white">
               <Markdown>{report}</Markdown>
             </ScrollArea>
