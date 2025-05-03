@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky",
+    "prepare": "husky && prisma generate",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
