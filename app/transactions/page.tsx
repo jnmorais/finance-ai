@@ -44,13 +44,19 @@ const TransactionsPage = async ({ searchParams }: TransactionsPageProps) => {
     };
   }
 
-  const transactions = await db.transaction.findMany({ where });
+  const transactions = await db.transaction.findMany({
+    where,
+    orderBy: {
+      date: "desc",
+    },
+  });
+
   const userCanAddTransaction = await canUserAddTransaction();
 
   return (
     <>
       <Navbar />
-      <div className="space-y-6 overflow-hidden p-6">
+      <div className="flex flex-col space-y-6 overflow-hidden p-6">
         {/* TÍTULO, FILTRO E BOTÃO */}
         <div className="flex w-full items-center justify-between">
           <h1 className="text-2xl font-bold">Transações</h1>
