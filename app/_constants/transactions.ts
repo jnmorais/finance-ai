@@ -15,15 +15,19 @@ export const TRANSACTION_PAYMENT_METHOD_ICONS = {
 };
 
 export const TRANSACTION_CATEGORY_LABELS = {
+  ACCESSORIES: "Acessórios",
+  FOOD: "Alimentação",
+  BEAUTY: "Beleza",
   EDUCATION: "Educação",
   ENTERTAINMENT: "Entreterimento",
-  FOOD: "Alimentação",
-  HEALTH: "Saúde",
   HOUSING: "Moradia",
-  OTHER: "Outros",
   SALARY: "Salário",
+  HEALTH: "Saúde",
   TRANSPORTATION: "Transporte",
   UTILITY: "Utilidades",
+  CLOTHING: "Vestuário",
+  TRAVEL: "Viagem",
+  OTHER: "Outros",
 };
 
 export const TRANSACTION_PAYMENTS_LABELS = {
@@ -84,6 +88,18 @@ export const TRANSACTION_PAYMENT_METHOD_OPTIONS = [
 
 export const TRANSACTION_CATEGORY_OPTIONS = [
   {
+    value: TransactionCategory.ACCESSORIES,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.ACCESSORIES],
+  },
+  {
+    value: TransactionCategory.FOOD,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.FOOD],
+  },
+  {
+    value: TransactionCategory.BEAUTY,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.BEAUTY],
+  },
+  {
     value: TransactionCategory.EDUCATION,
     label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.EDUCATION],
   },
@@ -91,25 +107,18 @@ export const TRANSACTION_CATEGORY_OPTIONS = [
     value: TransactionCategory.ENTERTAINMENT,
     label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.ENTERTAINMENT],
   },
-  {
-    value: TransactionCategory.FOOD,
-    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.FOOD],
-  },
-  {
-    value: TransactionCategory.HEALTH,
-    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.HEALTH],
-  },
+
   {
     value: TransactionCategory.HOUSING,
     label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.HOUSING],
   },
   {
-    value: TransactionCategory.OTHER,
-    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.OTHER],
-  },
-  {
     value: TransactionCategory.SALARY,
     label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.SALARY],
+  },
+  {
+    value: TransactionCategory.HEALTH,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.HEALTH],
   },
   {
     value: TransactionCategory.TRANSPORTATION,
@@ -118,5 +127,17 @@ export const TRANSACTION_CATEGORY_OPTIONS = [
   {
     value: TransactionCategory.UTILITY,
     label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.UTILITY],
+  },
+  {
+    value: TransactionCategory.CLOTHING,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.CLOTHING],
+  },
+  {
+    value: TransactionCategory.TRAVEL,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.TRAVEL],
+  },
+  {
+    value: TransactionCategory.OTHER,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.OTHER],
   },
 ];

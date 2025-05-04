@@ -35,20 +35,17 @@ const TransactionMonthFilter = () => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
 
-  // Obter o mês atual da URL ou usar "all" como padrão
   const currentMonth = searchParams.get("month") || "all";
 
   const handleMonthChange = (month: string) => {
-    // Construir nova URL com os parâmetros existentes
     const params = new URLSearchParams(searchParams.toString());
 
     if (month === "all") {
-      params.delete("month"); // Remove o parâmetro month se for "all"
+      params.delete("month");
     } else {
-      params.set("month", month); // Define o mês selecionado
+      params.set("month", month);
     }
 
-    // Construir e navegar para a nova URL
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     push(newUrl);
   };
