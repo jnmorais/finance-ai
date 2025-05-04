@@ -62,7 +62,10 @@ const TransactionsPage = async ({ searchParams }: TransactionsPageProps) => {
           </div>
         </div>
         <ScrollArea className="col-span-2 h-full rounded-md border pb-6">
-          <DataTable columns={transactionColumns} data={transactions} />
+          <DataTable
+            columns={transactionColumns}
+            data={JSON.parse(JSON.stringify(transactions))}
+          />
         </ScrollArea>
       </div>
     </>
