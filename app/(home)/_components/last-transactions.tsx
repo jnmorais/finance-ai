@@ -34,7 +34,7 @@ const LastTransactions = ({ lastTransactions }: LastTransactionsProps) => {
   };
 
   return (
-    <Card className="overflow-scroll max-md:overflow-hidden">
+    <Card className="overflow-scroll">
       <CardHeader className="flex-row items-center justify-between">
         <CardTitle className="font-bold">Últimas Transações</CardTitle>
         <Button variant="outline" className="rounded-full font-bold" asChild>
