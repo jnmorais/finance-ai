@@ -37,9 +37,9 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
     <>
       <Navbar />
       <div className="flex h-full flex-col space-y-6 overflow-hidden p-6 max-md:flex-1 max-md:overflow-visible">
-        <div className="flex justify-between max-[353px]:flex-col">
+        <div className="flex justify-between max-[490px]:flex-col">
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <div className="flex items-center gap-3 max-[353px]:justify-between">
+          <div className="flex items-center gap-3 max-[490px]:mt-4 max-[490px]:justify-between">
             <AiReportButton
               month={month}
               hasPremiumPlan={
