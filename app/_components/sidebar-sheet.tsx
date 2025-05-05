@@ -1,6 +1,6 @@
 "use client";
 
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useClerk } from "@clerk/nextjs";
 import {
   SheetContent,
   SheetDescription,
@@ -9,9 +9,16 @@ import {
 } from "./ui/sheet";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "./ui/button";
+import { LogOutIcon } from "lucide-react";
 
 const SidebarSheet = () => {
   const pathname = usePathname();
+  const { signOut } = useClerk();
+
+  const handleSignOut = async () => {
+    await signOut({ redirectUrl: "/" });
+  };
 
   return (
     <SheetContent>
@@ -58,6 +65,11 @@ const SidebarSheet = () => {
           Assinatura
         </Link>
       </div>
+
+      <Button className="mt-4" variant="ghost" onClick={handleSignOut}>
+        <LogOutIcon />
+        Sair
+      </Button>
     </SheetContent>
   );
 };
