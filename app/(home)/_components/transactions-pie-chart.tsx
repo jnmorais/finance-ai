@@ -61,7 +61,7 @@ const TransactionsPieChart = ({
   ];
 
   return (
-    <Card className="flex flex-col overflow-scroll">
+    <Card className="flex flex-col overflow-scroll [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <CardContent className="flex-1 p-0">
         <ChartContainer
           config={chartConfig}

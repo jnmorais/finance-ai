@@ -16,7 +16,7 @@ const ExpensesPerCategory = ({
   expensesPerCategory,
 }: ExpensesPerCategoryProps) => {
   return (
-    <Card className="col-span-1 h-full overflow-scroll p-0 pb-6">
+    <Card className="col-span-1 h-full overflow-auto p-0 pb-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <CardHeader>
         <CardTitle className="font-bold">Despesas por Categoria</CardTitle>
       </CardHeader>
