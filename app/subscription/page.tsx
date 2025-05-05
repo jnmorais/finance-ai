@@ -43,11 +43,11 @@ const SubscriptionsPage = async () => {
               <div className="flex items-center gap-2">
                 <CheckIcon className="text-primary" />
                 <p>
-                  Apenas 10 transações por mês ({currentMonthTransactions}/10)
+                  Apenas 15 transações por mês ({currentMonthTransactions}/15)
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <XIcon />
+                <XIcon className="text-danger" />
                 <p>Relatórios de IA</p>
               </div>
             </CardContent>
@@ -56,7 +56,7 @@ const SubscriptionsPage = async () => {
           <Card className="w-[450px] max-[540px]:mx-auto max-[540px]:w-[250px]">
             <CardHeader className="relative border-b border-solid py-8">
               {hasPremiumPlan && (
-                <Badge className="absolute left-4 top-4 bg-primary/20 text-primary">
+                <Badge className="absolute left-4 top-12 bg-primary/10 text-primary hover:bg-muted">
                   Ativo
                 </Badge>
               )}
@@ -65,7 +65,7 @@ const SubscriptionsPage = async () => {
               </h2>
               <div className="flex flex-row items-center justify-center gap-3">
                 <span className="text-4xl">R$</span>
-                <span className="text-6xl font-semibold">19</span>
+                <span className="text-6xl font-semibold">10</span>
                 <span className="text-2xl text-muted-foreground">/mês</span>
               </div>
             </CardHeader>
