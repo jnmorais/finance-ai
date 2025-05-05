@@ -27,7 +27,7 @@ const SubscriptionsPage = async () => {
       <div className="space-y-6 p-6">
         <h1 className="text-2xl font-bold">Assinatura</h1>
 
-        <div className="flex gap-6 max-[540px]:flex-col">
+        <div className="flex gap-6 max-[540px]:flex-col max-[540px]:gap-3">
           <Card className="w-[450px] max-[540px]:mx-auto max-[540px]:w-[250px]">
             <CardHeader className="border-b border-solid py-8">
               <h2 className="text-center text-2xl font-semibold">
@@ -39,7 +39,7 @@ const SubscriptionsPage = async () => {
                 <span className="text-2xl text-muted-foreground">/mês</span>
               </div>
             </CardHeader>
-            <CardContent className="space-y-6 py-8">
+            <CardContent className="space-y-6 py-8 max-[540px]:py-4">
               <div className="flex items-center gap-2">
                 <CheckIcon className="text-primary" />
                 <p>
@@ -56,7 +56,7 @@ const SubscriptionsPage = async () => {
           <Card className="w-[450px] max-[540px]:mx-auto max-[540px]:w-[250px]">
             <CardHeader className="relative border-b border-solid py-8">
               {hasPremiumPlan && (
-                <Badge className="absolute left-4 top-10 bg-primary/20 text-primary">
+                <Badge className="absolute left-4 top-4 bg-primary/20 text-primary">
                   Ativo
                 </Badge>
               )}
@@ -69,7 +69,7 @@ const SubscriptionsPage = async () => {
                 <span className="text-2xl text-muted-foreground">/mês</span>
               </div>
             </CardHeader>
-            <CardContent className="space-y-6 py-8">
+            <CardContent className="space-y-6 py-8 max-[540px]:py-4">
               <div className="flex items-center gap-2">
                 <CheckIcon className="text-primary" />
                 <p>Transações ilimitadas</p>
