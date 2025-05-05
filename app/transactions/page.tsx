@@ -35,7 +35,6 @@ const TransactionsPage = async ({ searchParams }: TransactionsPageProps) => {
     const year = new Date().getFullYear();
 
     const startDate = new Date(`${year}-${selectedMonth}-01`);
-
     const lastDay = new Date(year, parseInt(selectedMonth), 0).getDate();
 
     where.date = {
@@ -68,10 +67,16 @@ const TransactionsPage = async ({ searchParams }: TransactionsPageProps) => {
           </div>
         </div>
         <ScrollArea className="col-span-2 h-full rounded-md border pb-6">
-          <DataTable
-            columns={transactionColumns}
-            data={JSON.parse(JSON.stringify(transactions))}
-          />
+          {transactions.length === 0 && selectedMonth ? (
+            <div className="flex h-40 w-full items-center justify-center text-muted-foreground">
+              Não há transações nesse mês
+            </div>
+          ) : (
+            <DataTable
+              columns={transactionColumns}
+              data={JSON.parse(JSON.stringify(transactions))}
+            />
+          )}
         </ScrollArea>
       </div>
     </>
