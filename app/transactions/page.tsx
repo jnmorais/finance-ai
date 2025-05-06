@@ -65,16 +65,19 @@ const TransactionsPage = async ({ searchParams }: TransactionsPageProps) => {
           </div>
         </div>
 
-        <div className="w-full overflow-x-auto rounded-md border">
+        {/* Div container com overflow-auto para garantir rolagem em todas as telas */}
+        <div className="max-h-[calc(100vh-200px)] w-full overflow-auto rounded-md border">
           {transactions.length === 0 && selectedMonth ? (
             <div className="flex h-40 w-full items-center justify-center text-muted-foreground">
               Não há transações nesse mês
             </div>
           ) : (
-            <DataTable
-              columns={transactionColumns}
-              data={JSON.parse(JSON.stringify(transactions))}
-            />
+            <div className="min-w-full">
+              <DataTable
+                columns={transactionColumns}
+                data={JSON.parse(JSON.stringify(transactions))}
+              />
+            </div>
           )}
         </div>
       </div>
