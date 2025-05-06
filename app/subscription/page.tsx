@@ -3,7 +3,6 @@ import Navbar from "../_components/navbar";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader } from "../_components/ui/card";
 import { CheckIcon, XIcon } from "lucide-react";
-
 import { Badge } from "../_components/ui/badge";
 import { getCurrentMonthTransactions } from "../_data/get-current-month-transactions";
 import AcquirePlanButton from "./components/acquire-plan-button";
@@ -15,10 +14,7 @@ const SubscriptionsPage = async () => {
   }
 
   const user = await (await clerkClient()).users.getUser(userId);
-
-  // chama a função para verificar quantidade de transações criadas pelo usuário dentro do mês
   const currentMonthTransactions = await getCurrentMonthTransactions();
-
   const hasPremiumPlan = user.publicMetadata.subscriptionPlan === "premium";
 
   return (
@@ -56,9 +52,17 @@ const SubscriptionsPage = async () => {
           <Card className="w-[450px] max-[540px]:mx-auto max-[540px]:w-[250px]">
             <CardHeader className="relative border-b border-solid py-8">
               {hasPremiumPlan && (
-                <Badge className="absolute left-4 top-12 bg-primary/10 text-primary hover:bg-muted">
-                  Ativo
-                </Badge>
+                <>
+                  <Badge className="absolute left-4 top-4 hidden bg-primary/10 text-primary hover:bg-muted min-[541px]:block">
+                    Ativo
+                  </Badge>
+
+                  <div className="mb-2 block min-[541px]:hidden">
+                    <Badge className="bg-primary/10 text-primary hover:bg-muted">
+                      Ativo
+                    </Badge>
+                  </div>
+                </>
               )}
               <h2 className="text-center text-2xl font-semibold">
                 Plano Premium
