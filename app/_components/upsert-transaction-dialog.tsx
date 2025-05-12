@@ -12,6 +12,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -41,6 +42,7 @@ import {
 } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { upsertTransaction } from "../_actions/upsert-transaction";
+import { Checkbox } from "./ui/checkbox";
 
 interface UpsertTransactionDialogProps {
   isOpen: boolean;
@@ -71,6 +73,9 @@ const formSchema = z.object({
   date: z.date({
     required_error: "A data é obrigatória.",
   }),
+  isRecurring: z.boolean({ required_error: "A recorrência é obrigatória." }),
+  endDate: z.date().optional(),
+  recurrence: z.literal("MONTHLY").optional(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -90,11 +95,21 @@ const UpsertTransactionDialog = ({
       name: "",
       paymentMethod: TransactionPaymentMethod.CASH,
       type: TransactionType.EXPENSE,
+      isRecurring: false,
+      endDate: undefined,
+      recurrence: "MONTHLY",
     },
   });
   const onSubmit = async (data: FormSchema) => {
     try {
-      await upsertTransaction({ ...data, id: transactionId });
+      const submissionData = { ...data };
+      if (submissionData.isRecurring) {
+        submissionData.recurrence = "MONTHLY";
+      } else {
+        submissionData.recurrence = undefined;
+      }
+
+      await upsertTransaction({ ...submissionData, id: transactionId });
       setIsOpen(false);
       form.reset();
     } catch (error) {
@@ -115,7 +130,7 @@ const UpsertTransactionDialog = ({
       }}
     >
       <DialogTrigger asChild></DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {isUpdate ? "Editar" : "Adicionar"} transação
@@ -124,7 +139,7 @@ const UpsertTransactionDialog = ({
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="name"
@@ -171,7 +186,7 @@ const UpsertTransactionDialog = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a verified email to display" />
+                        <SelectValue placeholder="Selecione o tipo..." />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -251,7 +266,52 @@ const UpsertTransactionDialog = ({
                 </FormItem>
               )}
             />
-            <DialogFooter>
+
+            <FormField
+              control={form.control}
+              name="isRecurring"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center space-x-2">
+                    <FormLabel className="m-0">
+                      É uma transação mensal?
+                    </FormLabel>
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="h-4 w-4 focus:outline-none focus:ring-0"
+                      />
+                    </FormControl>
+                  </div>
+                  <FormDescription>
+                    Se sim, selecione. Se não, deixe desmarcado.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {form.watch("isRecurring") && (
+              <FormField
+                control={form.control}
+                name="endDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Data final da recorrência</FormLabel>
+                    <FormControl>
+                      <DatePicker
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            <DialogFooter className="mt-6">
               <DialogClose asChild>
                 <Button type="button" variant="outline">
                   Cancelar

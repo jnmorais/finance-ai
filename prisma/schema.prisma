@@ -18,6 +18,16 @@ model Transaction {
   userId        String
   amount        Decimal                  @db.Decimal(10, 2)
   updatedAt     DateTime                 @updatedAt
+  isRecurring   Boolean                  @default(false)
+  recurrence    RecurrenceType?
+  endDate       DateTime?
+  parentId      String?
+  parent        Transaction?             @relation("RecurringTransactions", fields: [parentId], references: [id])
+  children      Transaction[]            @relation("RecurringTransactions")
+}
+
+enum RecurrenceType {
+  MONTHLY
 }
 
 enum TransactionType {
