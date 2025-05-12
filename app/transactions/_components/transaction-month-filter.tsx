@@ -7,8 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/_components/ui/select";
-
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 type MonthOption = {
   value: string;
@@ -16,7 +16,6 @@ type MonthOption = {
 };
 
 const MONTH_OPTIONS: MonthOption[] = [
-  { value: "all", label: "Todas transações" },
   { value: "01", label: "Janeiro" },
   { value: "02", label: "Fevereiro" },
   { value: "03", label: "Março" },
@@ -37,15 +36,22 @@ const TransactionMonthFilter = () => {
 
   const currentMonth = searchParams.get("month") || "all";
 
+  useEffect(() => {
+    if (!currentMonth || currentMonth === "all") {
+      const now = new Date();
+      const currentMonthNumber = String(now.getMonth() + 1).padStart(2, "0");
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("month", currentMonthNumber);
+
+      const newUrl = `${window.location.pathname}?${params.toString()}`;
+      push(newUrl);
+    }
+  }, [currentMonth, push, searchParams]);
+
   const handleMonthChange = (month: string) => {
     const params = new URLSearchParams(searchParams.toString());
-
-    if (month === "all") {
-      params.delete("month");
-    } else {
-      params.set("month", month);
-    }
-
+    params.set("month", month);
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     push(newUrl);
   };

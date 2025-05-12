@@ -7,7 +7,6 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { canUserAddTransaction } from "../_data/can-user-add-transaction";
 import TransactionMonthFilter from "./_components/transaction-month-filter";
-
 import { Prisma } from "@prisma/client";
 
 interface SearchParams {
@@ -24,6 +23,13 @@ const TransactionsPage = async ({ searchParams }: TransactionsPageProps) => {
     redirect("/login");
   }
 
+  if (!searchParams.month) {
+    const currentDate = new Date();
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
+
+    redirect(`/transactions?month=${currentMonth}`);
+  }
+
   const selectedMonth = searchParams.month;
 
   const where: Prisma.TransactionWhereInput = {
@@ -33,6 +39,7 @@ const TransactionsPage = async ({ searchParams }: TransactionsPageProps) => {
   if (selectedMonth) {
     const year = new Date().getFullYear();
     const startDate = new Date(`${year}-${selectedMonth}-01`);
+
     const lastDay = new Date(year, parseInt(selectedMonth), 0).getDate();
 
     where.date = {
