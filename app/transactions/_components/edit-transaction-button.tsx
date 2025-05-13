@@ -11,6 +11,17 @@ interface EditTransactionButtonProps {
 const EditTransactionButton = ({ transaction }: EditTransactionButtonProps) => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
+  const prepareTransactionData = () => {
+    return {
+      ...transaction,
+      amount: Number(transaction.amount),
+
+      recurrence: transaction.recurrence || undefined,
+      endDate: transaction.endDate || undefined,
+      parentId: transaction.parentId || undefined,
+    };
+  };
+
   return (
     <>
       <Button
@@ -24,10 +35,7 @@ const EditTransactionButton = ({ transaction }: EditTransactionButtonProps) => {
       <UpsertTransactionDialog
         isOpen={dialogIsOpen}
         setIsOpen={setDialogIsOpen}
-        defaultValues={{
-          ...transaction,
-          amount: Number(transaction.amount),
-        }}
+        defaultValues={prepareTransactionData()}
         transactionId={transaction.id}
       />
     </>
